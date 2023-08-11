@@ -1,12 +1,15 @@
 import 'package:abora_client/DB/functions.dart';
 import 'package:abora_client/constants/app_styles.dart';
-import 'package:abora_client/constants/widgets.dart';
-import 'package:abora_client/pages/booking.dart';
+import 'package:abora_client/pages/booking/booked_sessions.dart';
 import 'package:abora_client/pages/home.dart';
-import 'package:abora_client/pages/login.dart';
 import 'package:abora_client/pages/profile.dart';
 import 'package:flutter/material.dart';
 
+// Global vars
+DbServices dbServices = DbServices();
+String userName = '';
+
+// StatefulWidget widget
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -14,11 +17,20 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-//  BottomNavigationBar
-List pages = const [HomePage(), BookingPage(), ProfilePage()];
+//  BottomNavigationBar configs
+List pages = [HomePage(), BookedSessions(), ProfilePage()];
 int currentIndex = 0;
 
 class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await DbServices().fillDocSnap();
+      userName = await DbServices().getUserName();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -27,17 +39,20 @@ class _MainPageState extends State<MainPage> {
     final height = SizeConfig.screenHeight;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(220, 247, 244, 244),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: const Color.fromARGB(235, 247, 244, 244),
       body: Stack(children: [
         //Current Page
-        Padding(
-          padding: EdgeInsets.only(
-            top: height! * 0.05,
-            left: width! * 0.03,
-            right: width * 0.03,
+        ListView(children: [
+          Padding(
+            padding: EdgeInsets.only(
+              // top: height != null ? height * 0.06 : 5,
+              left: width != null ? width * 0.03 : 5,
+              right: width != null ? width * 0.03 : 5,
+            ),
+            child: pages[currentIndex],
           ),
-          child: pages[currentIndex],
-        ),
+        ]),
 
         // bottom_navigation_bar
         Positioned(

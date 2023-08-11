@@ -1,28 +1,31 @@
 class NewUser {
   final String name;
   String profilePic;
-  String bio;
+  String goal;
   String area;
+  String uid;
   List bookedSessions;
   DateTime createdOn;
 
   NewUser({
     required this.name,
     required this.profilePic,
-    required this.bio,
+    required this.goal,
     required this.bookedSessions,
     required this.area,
     required this.createdOn,
+    required this.uid,
   });
 
   Map<String, dynamic> toMap() {
     return {
       "name": name,
       "profilePic": profilePic,
-      "bio": bio,
+      "goal": goal,
       "sessionsBooked": bookedSessions,
       "area": area,
       "createdOn": createdOn,
+      "uid": uid,
     };
   }
 }

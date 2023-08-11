@@ -6,9 +6,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 // Global Vars
 bool _userLoggedIn = false;
+File? file;
+
 void main() async {
 // initialize
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +23,9 @@ void main() async {
 // check user LoggedIn
   if (prefs.getBool(SharedPrefVal().userLoggedIn) != null) {
     _userLoggedIn = prefs.getBool(SharedPrefVal().userLoggedIn)!;
+    if (prefs.getString(SharedPrefVal().profilePic) != null) {
+      file = File(prefs.getString(SharedPrefVal().profilePic)!);
+    }
   }
 
   runApp(const MyApp());

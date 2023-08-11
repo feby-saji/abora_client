@@ -19,6 +19,7 @@ final kPoppinsSemiBold = GoogleFonts.poppins(
 final kPoppinsMedium = GoogleFonts.poppins(
   color: kblack,
   fontWeight: FontWeight.w500,
+  fontSize: 16,
 );
 final kPoppinsRegular = GoogleFonts.poppins(
   color: kblack,
